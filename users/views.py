@@ -5,6 +5,7 @@ from django.contrib import messages
 
 
 def loginUser(request):
+    errors = {}
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -12,15 +13,19 @@ def loginUser(request):
         check_user = User.objects.filter(username=username).exists()
         if check_user:
             authenticated_user = authenticate(
-                request, username=username, password=password
+                request, 
+                username=username, 
+                password=password
             )
             if authenticated_user:
-                login(username, password)
+                login(request, authenticated_user)
                 messages.success(request, "You have successfully logged in")
-                return redirect("home")
+                return redirect("/home")
             else:
-                messages.error(request, "Invalid username or password")
-                return redirect('auth/log-in')
+                errors['password']= "Incorrect password"
+                
         else:
-            messages.error(request, "User does not exist")
-            return redirect('auth/log-in')
+            errors['username']= "Username does not exist"
+        if errors:
+            return render(request, 'pages/auth/login.html', {'errors': errors})
+            
