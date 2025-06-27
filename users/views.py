@@ -9,23 +9,20 @@ def loginUser(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-
-        check_user = User.objects.filter(username=username).exists()
+        
+        # returns boolean value if any value matching username exists in model User
+        check_user = User.objects.filter(username=username).exists() 
         if check_user:
-            authenticated_user = authenticate(
-                request, 
-                username=username, 
-                password=password
-            )
+            # for authenticating user with username and password
+            authenticated_user = authenticate(request, username=username, password=password)
             if authenticated_user:
-                login(request, authenticated_user)
+                login(request, authenticated_user) # saves the user data in session 
                 messages.success(request, "You have successfully logged in")
-                return redirect("/home")
+                return redirect("/home") # redirects to /home route
             else:
-                errors['password']= "Incorrect password"
-                
+                errors['password'] = "Invalid Password!" #stores error in key 'password'
         else:
-            errors['username']= "Username does not exist"
+            errors['username'] = "User doesnot exist."
+        
         if errors:
-            return render(request, 'pages/auth/login.html', {'errors': errors})
-            
+            return render(request, 'pages/auth/login.html', {'errors': errors}) # renders login.html with errors
