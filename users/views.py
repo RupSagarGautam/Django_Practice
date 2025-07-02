@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from users.models import Profile
+from django.contrib.auth.password_validation import validate_password
+from django.core.validators import validate_email
 
 
 def loginUser(request):
@@ -18,7 +21,7 @@ def loginUser(request):
             if authenticated_user:
                 login(request, authenticated_user) # saves the user data in session 
                 messages.success(request, "You have successfully logged in")
-                return redirect("/home") # redirects to /home route
+                return redirect("/") # redirects to /home route
             else:
                 errors['password'] = "Invalid Password!" #stores error in key 'password'
         else:
@@ -28,6 +31,7 @@ def loginUser(request):
             return render(request, 'pages/auth/login.html', {'errors': errors}) # renders login.html with errors
         
 def signupUser(request):
+    errors = {}
     if request.method == "POST":
         username = request.POST.get('username')
         email = request.POST.get('email')
@@ -42,3 +46,49 @@ def signupUser(request):
         profile_image = request.FILES.get('profile_image')
         nationality = request.POST.get('nationality')
         
+        
+        # profile = Profile.objects.create(user=user, address=address, phone=phone, gender=gender, dob=dob, nationality=nationality)
+        # if profile_image:
+        #     profile.profile_image = profile_image
+        # else:
+        # profile.profile_image = "user/default_user.png"
+        # profile.save()
+
+        user_exists = User.objects.filter(username=username).exists()
+        email_exists = User.objects.filter(email=email).exists()
+        phone_exists = Profile.objects.filter(phone=phone).exists()
+        
+        if user_exists:
+            errors['username'] = "Username already exists."
+        if email_exists:
+            errors['email'] = "Email already exists."
+        if phone_exists:
+            errors['phone'] = "Phone number already exists."
+        if len(username) < 3 :
+            errors['username'] = "Username must be at least 3 characters long."
+        if password != confirm_password:
+            errors['confirm_password'] = "Passwords do not match."
+        if len(password) < 8:
+            errors['password'] = "Password must be at least 8 characters long."
+        if len(first_name) < 2:
+            errors['first_name'] = "First name must be at least 2 characters long."
+        try:
+            validate_password(password)
+        except:
+            errors['password'] = "Invalid Password! Format"
+        
+        try:
+            validate_email(email)
+        except Exception as e:
+            errors['email'] = e
+        
+        if errors:
+            return render(request, 'pages/auth/signup.html', {'errors': errors,})
+            
+        
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+        Profile.objects.create( user = user, address=address, phone=phone, gender=gender, dob=dob, nationality=nationality, profile_image=profile_image)
+        
+        
+        messages.success(request, "You have successfully signed up")
+        return redirect('/auth/log-in')

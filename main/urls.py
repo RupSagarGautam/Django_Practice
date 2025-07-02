@@ -24,7 +24,8 @@ from users.views import *
 auth_urlpatterns = [
     path('log-in/', loginPage),
     path('sign-up/', signupPage),
-    path('signin-user', loginUser)
+    path('signin-user', loginUser),
+    path('signup-user', signupUser),
 ]
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     path('', landingPage),
     path('about/', aboutPage),
     path('auth/', include(auth_urlpatterns)),
+    path('blogs/', blogPage),
 ]
 
 if settings.DEBUG:
