@@ -70,7 +70,9 @@ Signup
         {% for error in errors.password %}
         
         <span class="text-sm text-red-500">{{ error }}</span>
+        {% endfor%}
         {% endif %}
+
       </div>
       <div class="space-y-2">
         <label for="confirm_password" class="block text-sm font-semibold text-gray-700 normal-case">Confirm

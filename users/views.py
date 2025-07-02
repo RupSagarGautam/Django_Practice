@@ -72,6 +72,8 @@ def signupUser(request):
             errors['password'] = "Password must be at least 8 characters long."
         if len(first_name) < 2:
             errors['first_name'] = "First name must be at least 2 characters long."
+        if len(phone)< 10 or len(phone)> 10:
+            errors['phone'] = "Phone Number Should be 10 Digits Long"
         try:
             validate_password(password)
         except:
