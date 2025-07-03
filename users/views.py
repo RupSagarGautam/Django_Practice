@@ -14,7 +14,7 @@ def loginUser(request):
         password = request.POST.get("password")
         
         # returns boolean value if any value matching username exists in model User
-        check_user = User.objects.filter(username=username).exists() 
+        check_user = User.objects.filter(username=username).exists()
         if check_user:
             # for authenticating user with username and password
             authenticated_user = authenticate(request, username=username, password=password)
