@@ -1,0 +1,14 @@
+{% extends "layouts/main.html" %}
+{% block title%} Profile {% endblock%}
+
+{% block content %}
+<div class="min-w-xl mx-">
+    <div class="min-h[60vh] borde-b-4 border-green-300 items-center">
+        <h1> User Profile</h1>
+        <div>
+            <img class="h-24 w-24 rounded-full border-2 object-cover" src="{{ user.profile.profile_image.url }}" alt="Profile Image" />
+        </div>
+    </div>
+</div>
+{% endblock %}
+

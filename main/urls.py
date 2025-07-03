@@ -26,6 +26,7 @@ auth_urlpatterns = [
     path('sign-up/', signupPage),
     path('signin-user', loginUser),
     path('signup-user', signupUser),
+    path('logout/', logoutUser),
 ]
 
 urlpatterns = [
@@ -34,6 +35,7 @@ urlpatterns = [
     path('about/', aboutPage),
     path('auth/', include(auth_urlpatterns)),
     path('blogs/', blogPage),
+    path('profile/', profilePage)
 ]
 
 if settings.DEBUG:

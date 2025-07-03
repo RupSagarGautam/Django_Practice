@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from users.models import Profile
 from django.contrib.auth.password_validation import validate_password
@@ -60,8 +60,6 @@ def signupUser(request):
         
         if user_exists:
             errors['username'] = "Username already exists."
-        if email_exists:
-            errors['email'] = "Email already exists."
         if phone_exists:
             errors['phone'] = "Phone number already exists."
         if len(username) < 3 :
@@ -76,21 +74,28 @@ def signupUser(request):
             errors['phone'] = "Phone Number Should be 10 Digits Long"
         try:
             validate_password(password)
-        except:
-            errors['password'] = "Invalid Password! Format"
+        except Exception as e:
+            errors['password'] = e
         
         try:
+            if email_exists:
+                errors['email'] = ["Email already exists."]
             validate_email(email)
         except Exception as e:
             errors['email'] = e
         
         if errors:
             return render(request, 'pages/auth/signup.html', {'errors': errors,})
+        
+        else:  
+        
+            user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+            Profile.objects.create( user = user, address=address, phone=phone, gender=gender, dob=dob, nationality=nationality, profile_image=profile_image)
             
-        
-        user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
-        Profile.objects.create( user = user, address=address, phone=phone, gender=gender, dob=dob, nationality=nationality, profile_image=profile_image)
-        
-        
-        messages.success(request, "You have successfully signed up")
-        return redirect('/auth/log-in')
+            messages.success(request, "You have successfully signed up")
+            return redirect('/auth/log-in')
+
+def logoutUser(request):
+    logout(request)
+    messages.success(request, "You have successfully logged out")
+    return redirect('/auth/log-in')
