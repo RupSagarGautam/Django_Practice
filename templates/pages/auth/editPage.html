@@ -13,17 +13,17 @@ Signup
         class="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-green-600 flex items-center justify-center shadow-lg">
         <img src="/static/images/favicon.ico" alt="Digital Pathshala Logo" />
       </div>
-      <h1 class="text-2xl font-bold text-green-800 mb-2 normal-case">Register user to Digital Pathshala</h1>
+      <h1 class="text-2xl font-bold text-green-800 mb-2 normal-case">Update user to Digital Pathshala</h1>
       <p class="text-gray-600 normal-case">Access your account and manage your blogs!</p>
     </div>
     <!-- Login Form -->
-    <form class="space-y-4" method="post" action="/auth/signup-user/" enctype="multipart/form-data">
+    <form class="space-y-4" method="post" action="/auth/update-user/" enctype="multipart/form-data">
       {% csrf_token %}
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">
           <label for="last_name" class="block text-sm font-semibold text-gray-700 normal-case">First Name</label>
-          <input
+          <input value= "{{user.first_name}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             type="text" id="first_name" name="first_name" placeholder="Enter your first_name"  />
           {% if errors.first_name %}
@@ -32,7 +32,7 @@ Signup
         </div>
         <div class="space-y-2">
           <label for="last_name" class="block text-sm font-semibold text-gray-700 normal-case">Last Name</label>
-          <input
+          <input value= "{{user.last_name}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             type="text" id="last_name" name="last_name" placeholder="Enter your last_name"  />
           {% if errors.last_name %}
@@ -42,7 +42,7 @@ Signup
       </div>
       <div class="space-y-2">
         <label for="username" class="block text-sm font-semibold text-gray-700 normal-case">Username</label>
-        <input
+        <input value= "{{user.username}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="text" id="username" name="username" placeholder="Enter your username"  />
         {% if errors.username %}
@@ -51,7 +51,7 @@ Signup
       </div>
       <div class="space-y-2">
         <label for="email" class="block text-sm font-semibold text-gray-700 normal-case">email</label>
-        <input
+        <input value= "{{user.email}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="text" id="email" name="email" placeholder="Enter your email"  />
           {% if errors.email%}
@@ -63,7 +63,7 @@ Signup
 
       <div class="space-y-2">
         <label for="password" class="block text-sm font-semibold text-gray-700 normal-case">Password</label>
-        <input
+        <input value= ""
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="password" id="password" name="password" placeholder="Enter your password"  />
         {% if errors.password %}
@@ -77,7 +77,7 @@ Signup
       <div class="space-y-2">
         <label for="confirm_password" class="block text-sm font-semibold text-gray-700 normal-case">Confirm
           Password</label>
-        <input
+        <input value= ""
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password"  />
         {% if errors.confirm_password %}
@@ -343,7 +343,7 @@ Signup
         </div>
         <div class="space-y-2">
           <label for="address" class="block text-sm font-semibold text-gray-700 normal-case">Address</label>
-          <input
+          <input value= "{{user.profile.address}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             type="text" id="address" name="address" placeholder="Enter your address"  />
           {% if errors.address %}
@@ -354,7 +354,7 @@ Signup
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">
           <label for="dob" class="block text-sm font-semibold text-gray-700 normal-case"> Date of Birth </label>
-          <input type="date" name="dob" id="dob"
+          <input value= "{{user.profile.dob|date:'Y-m-d'}}" type="date" name="dob" id="dob"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             >
           {% if errors.dob %}
@@ -366,9 +366,9 @@ Signup
           <select
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             id="gender" name="gender">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Others">Others</option>
+            <option {%if user.profile.gender == "Male" %} selected {%endif%} value="Male">Male</option>
+            <option {%if user.profile.gender == "Female" %} selected {%endif%} value="Female">Female</option>
+            <option {%if user.profile.gender == "Others" %} selected {%endif%} value="Others">Others</option>
           </select>
           {% if errors.gender %}
           <span class="text-sm text-red-500">{{ errors.gender }}</span>
@@ -377,7 +377,7 @@ Signup
       </div>
       <div class="space-y-2">
         <label for="phone" class="block text-sm font-semibold text-gray-700 normal-case">Phone Number</label>
-        <input
+        <input value= "{{user.profile.phone}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="tel" id="phone" name="phone" placeholder="Enter your phone"  />
         {% if errors.phone %}
@@ -386,7 +386,7 @@ Signup
       </div>
       <div class="space-y-2">
         <label for="profile_image" class="block text-sm font-semibold text-gray-700 normal-case">Profile Image</label>
-        <input
+        <input value= "{{user.first_name}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="file" id="profile_image" name="profile_image" />
         {% if errors.profile_image %}
@@ -396,7 +396,7 @@ Signup
 
       <button
         class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-lg hover:shadow-xl"
-        type="submit">Sign In</button>
+        type="submit">Update Profile</button>
     </form>
 
     <!-- Divider -->

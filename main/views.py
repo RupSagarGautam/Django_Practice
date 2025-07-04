@@ -19,4 +19,3 @@ def blogPage(request):
 @login_required(login_url='/auth/log-in/')
 def profilePage(request):
     return render(request, 'pages/profile.html')
-

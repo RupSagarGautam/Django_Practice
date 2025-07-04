@@ -5,6 +5,7 @@ from django.contrib import messages
 from users.models import Profile
 from django.contrib.auth.password_validation import validate_password
 from django.core.validators import validate_email
+from django.contrib.auth.decorators import login_required
 
 
 def loginUser(request):
@@ -99,3 +100,7 @@ def logoutUser(request):
     logout(request)
     messages.success(request, "You have successfully logged out")
     return redirect('/auth/log-in')
+
+@login_required(login_url='/auth/log-in/')
+def editUserPage(request):
+    return render(request, 'pages/auth/editPage.html')
