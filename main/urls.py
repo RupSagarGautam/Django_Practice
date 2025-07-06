@@ -27,6 +27,7 @@ auth_urlpatterns = [
     path('signin-user/', loginUser),
     path('signup-user/', signupUser),
     path('logout/', logoutUser),
+    path('update-user/', editUser),
     path('edit-user/', editUserPage),
 ]
 

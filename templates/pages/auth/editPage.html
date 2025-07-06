@@ -63,13 +63,13 @@ Signup
 
       <div class="space-y-2">
         <label for="password" class="block text-sm font-semibold text-gray-700 normal-case">Password</label>
-        <input value= ""
+        <input
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="password" id="password" name="password" placeholder="Enter your password"  />
         {% if errors.password %}
         {% for error in errors.password %}
         
-        <span class="text-sm text-red-500">{{ error }}</span>
+        <span class="text-sm text-red-500">{{ errors }}</span>
         {% endfor%}
         {% endif %}
 
@@ -90,6 +90,7 @@ Signup
           <select
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             id="nationality" name="nationality">
+            <option value="{{request.user.profile.nationality}}">{{request.user.profile.nationality}}</option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Åland Islands">Åland Islands</option>
             <option value="Albania">Albania</option>
