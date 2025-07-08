@@ -20,15 +20,20 @@ from .views import *
 from django.conf.urls.static import static
 from main import settings
 from users.views import *
+from blogs.views import addBlogPage
 
 auth_urlpatterns = [
     path('log-in/', loginPage),
     path('sign-up/', signupPage),
-    path('signin-user/', loginUser),
-    path('signup-user/', signupUser),
-    path('logout/', logoutUser),
-    path('update-user/', editUser),
-    path('edit-user/', editUserPage),
+    path('signin-user', loginUser),
+    path('signup-user', signupUser),
+    path('logout', logoutUser),
+    path('edit-user', editUserPage),
+    path('update-user', updateUser),
+]
+
+blog_urlpatterns = [
+    path('add', addBlogPage)
 ]
 
 urlpatterns = [
@@ -36,8 +41,9 @@ urlpatterns = [
     path('', landingPage),
     path('about/', aboutPage),
     path('auth/', include(auth_urlpatterns)),
-    path('blogs/', blogPage),
-    path('profile/', profilePage)
+    path('blogs/',blogPage ),
+    path('profile/', profilePage ),
+    path('blog/', include(blog_urlpatterns)),
 ]
 
 if settings.DEBUG:

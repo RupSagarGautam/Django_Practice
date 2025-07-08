@@ -8,9 +8,7 @@
         Pathshala
       {% endblock %}
     </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer ></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
   <body class="font-sans text-gray-700 bg-gradient-to-br from-green-50 to-green-100 min-h-screen">
     <!-- Messages -->
@@ -53,7 +51,7 @@
           </li>
           <li class="text-gray-400">|</li>
           <li class="relative group pb-1">
-            <a href="/add-blog" class="text-gray-700 hover:text-green-600 transition-colors p-1">Write</a>
+            <a href="/blog/add" class="text-gray-700 hover:text-green-600 transition-colors p-1">Write</a>
             <div class="absolute bottom-0 left-1/2 w-0 h-0.5 bg-green-600 transition-all duration-300 group-hover:w-full group-hover:left-0"></div>
           </li>
           {% if not user.is_authenticated %}
@@ -71,30 +69,14 @@
               <a href="/auth/sign-up">Get Started</a>
             {% endif %}
           </li>
-          {% if user.is_authenticated%}
-          <div x-data="{ showMenu: false }" class="relative inline-block text-left">
-            <!-- Profile Image Trigger -->
-            <a href="#" @click.prevent="showMenu = !showMenu">
-              <img class="h-12 w-12 rounded-full border-2 object-cover" src="{{ user.profile.profile_image.url }}" alt="Profile Image" />
-            </a>
-          
-            <!-- Dropdown Menu -->
-            <div x-show="showMenu" @click.away="showMenu = false" class="absolute right-0 mt-2 space-y-2 bg-white border rounded-lg shadow-lg p-4 z-50 w-48">
-              <a href="/profile" class="flex items-center space-x-2 text-gray-800 hover:text-green-600 px-4 py-2 text-sm font-medium border border-gray-300 rounded hover:border-green-300">
-                <i class="fas fa-user"></i>
-                <span>My Profile</span>
+          {%if user.is_authenticated%}
+           <li class="text-gray-400">|</li>
+           <li>
+              <a href="/profile">
+                <img class="w-12 h-12 rounded-full border-2 object-cover" src="{{user.profile.profile_image.url}}" alt="Profile Image">
               </a>
-              <a href="/blogs" class="flex items-center space-x-2 text-gray-800 hover:text-green-600 px-4 py-2 text-sm font-medium border border-gray-300 rounded hover:border-green-500">
-                <i class="fas fa-book"></i>
-                <span>My Blogs</span>
-              </a>
-              <a href="/auth/logout" class="flex items-center space-x-2 text-gray-800 hover:text-red-600 px-4 py-2 text-sm font-medium border border-gray-300 rounded hover:border-red-200">
-                <i class="fas fa-door-open"></i>
-                <span>Logout</span>
-              </a>
-            </div>
-          </div>
-          {% endif %}
+           </li>
+          {%endif%}
         </ul>
       </div>
 
@@ -121,7 +103,7 @@
               <a href="/blogs" class="block text-gray-700 font-semibold py-2 hover:text-green-600 transition-colors">Blogs</a>
             </li>
             <li>
-              <a href="/add-blog" class="block text-gray-700 font-semibold py-2 hover:text-green-600 transition-colors">Write</a>
+              <a href="/blog/add" class="block text-gray-700 font-semibold py-2 hover:text-green-600 transition-colors">Write</a>
             </li>
             <li>
               <a href="/auth/log-in" class="block text-gray-700 font-semibold py-2 hover:text-green-600 transition-colors">Log In</a>

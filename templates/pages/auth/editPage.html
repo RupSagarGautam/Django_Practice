@@ -13,73 +13,77 @@ Signup
         class="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-green-600 flex items-center justify-center shadow-lg">
         <img src="/static/images/favicon.ico" alt="Digital Pathshala Logo" />
       </div>
-      <h1 class="text-2xl font-bold text-green-800 mb-2 normal-case">Update user to Digital Pathshala</h1>
-      <p class="text-gray-600 normal-case">Access your account and manage your blogs!</p>
+      <h1 class="text-2xl font-bold text-green-800 mb-2 normal-case">Edit User Details</h1>
     </div>
-    <!-- Login Form -->
-    <form class="space-y-4" method="post" action="/auth/update-user/" enctype="multipart/form-data">
+    <!-- Signup Form -->
+    <form class="space-y-4" method="post" action="/auth/update-user" enctype="multipart/form-data">
       {% csrf_token %}
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">
           <label for="last_name" class="block text-sm font-semibold text-gray-700 normal-case">First Name</label>
-          <input value= "{{user.first_name}}"
+          <input value="{{user.first_name}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-            type="text" id="first_name" name="first_name" placeholder="Enter your first_name"  />
+            type="text" id="first_name" name="first_name" placeholder="Enter your first name" />
           {% if errors.first_name %}
           <span class="text-sm text-red-500">{{ errors.first_name }}</span>
           {% endif %}
         </div>
         <div class="space-y-2">
           <label for="last_name" class="block text-sm font-semibold text-gray-700 normal-case">Last Name</label>
-          <input value= "{{user.last_name}}"
+          <input value="{{user.last_name}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-            type="text" id="last_name" name="last_name" placeholder="Enter your last_name"  />
+            type="text" id="last_name" name="last_name" placeholder="Enter your last name" />
           {% if errors.last_name %}
           <span class="text-sm text-red-500">{{ errors.last_name }}</span>
           {% endif %}
         </div>
       </div>
+
+      <!-- username field -->
       <div class="space-y-2">
         <label for="username" class="block text-sm font-semibold text-gray-700 normal-case">Username</label>
-        <input value= "{{user.username}}"
+        <input value="{{user.username}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-          type="text" id="username" name="username" placeholder="Enter your username"  />
+          type="text" id="username" name="username" placeholder="Enter your username" />
         {% if errors.username %}
         <span class="text-sm text-red-500">{{ errors.username }}</span>
         {% endif %}
       </div>
+
+      <!-- Email field -->
       <div class="space-y-2">
-        <label for="email" class="block text-sm font-semibold text-gray-700 normal-case">email</label>
-        <input value= "{{user.email}}"
+        <label for="email" class="block text-sm font-semibold text-gray-700 normal-case">Email</label>
+        <input value="{{user.email}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-          type="text" id="email" name="email" placeholder="Enter your email"  />
-          {% if errors.email%}
-          {% for error in errors.email %}
-        <span class="text-sm text-red-500">{{ error }}</span>
+          type="text" id="email" name="email" placeholder="Enter your email" />
+        {% if errors.email %}
+        {% for error in errors.email %}
+        <div class="text-sm text-red-500">{{ error }}</div>
         {%endfor%}
-        {%endif%}
+        {% endif %}
       </div>
 
+      <!-- password field -->
       <div class="space-y-2">
         <label for="password" class="block text-sm font-semibold text-gray-700 normal-case">Password</label>
         <input
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-          type="password" id="password" name="password" placeholder="Enter your password"  />
+          type="password" id="password" name="password" placeholder="Enter your password" />
         {% if errors.password %}
         {% for error in errors.password %}
-        
-        <span class="text-sm text-red-500">{{ errors }}</span>
-        {% endfor%}
+        <div class="text-sm text-red-500">{{ error }}</div>
+        {%endfor%}
         {% endif %}
-
       </div>
+
+      <!-- confirm password field -->
       <div class="space-y-2">
         <label for="confirm_password" class="block text-sm font-semibold text-gray-700 normal-case">Confirm
           Password</label>
-        <input value= ""
+        <input
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-          type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password"  />
+          type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" />
         {% if errors.confirm_password %}
         <span class="text-sm text-red-500">{{ errors.confirm_password }}</span>
         {% endif %}
@@ -90,7 +94,7 @@ Signup
           <select
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             id="nationality" name="nationality">
-            <option value="{{request.user.profile.nationality}}">{{request.user.profile.nationality}}</option>
+            <option value="{{request.user.profile.nationality}}">{{request.user.profile.nationality}} </option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Åland Islands">Åland Islands</option>
             <option value="Albania">Albania</option>
@@ -344,9 +348,9 @@ Signup
         </div>
         <div class="space-y-2">
           <label for="address" class="block text-sm font-semibold text-gray-700 normal-case">Address</label>
-          <input value= "{{user.profile.address}}"
+          <input value="{{user.profile.address}}"
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-            type="text" id="address" name="address" placeholder="Enter your address"  />
+            type="text" id="address" name="address" placeholder="Enter your address" />
           {% if errors.address %}
           <span class="text-sm text-red-500">{{ errors.address }}</span>
           {% endif %}
@@ -355,9 +359,8 @@ Signup
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="space-y-2">
           <label for="dob" class="block text-sm font-semibold text-gray-700 normal-case"> Date of Birth </label>
-          <input value= "{{user.profile.dob|date:'Y-m-d'}}" type="date" name="dob" id="dob"
-            class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-            >
+          <input value="{{user.profile.dob|date:'Y-m-d'}}" type="date" name="dob" id="dob"
+            class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none">
           {% if errors.dob %}
           <span class="text-sm text-red-500">{{ errors.dob }}</span>
           {% endif %}
@@ -367,9 +370,9 @@ Signup
           <select
             class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
             id="gender" name="gender">
-            <option {%if user.profile.gender == "Male" %} selected {%endif%} value="Male">Male</option>
-            <option {%if user.profile.gender == "Female" %} selected {%endif%} value="Female">Female</option>
-            <option {%if user.profile.gender == "Others" %} selected {%endif%} value="Others">Others</option>
+            <option value="Male" {%if request.user.profile.gender == "Male"%}selected{%endif%}>Male</option>
+            <option value="Female" {%if request.user.profile.gender == "Female"%}selected{%endif%}>Female</option>
+            <option value="Others" {%if request.user.profile.gender == "Others"%}selected{%endif%}>Others</option>
           </select>
           {% if errors.gender %}
           <span class="text-sm text-red-500">{{ errors.gender }}</span>
@@ -378,16 +381,16 @@ Signup
       </div>
       <div class="space-y-2">
         <label for="phone" class="block text-sm font-semibold text-gray-700 normal-case">Phone Number</label>
-        <input value= "{{user.profile.phone}}"
+        <input value="{{user.profile.phone}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
-          type="tel" id="phone" name="phone" placeholder="Enter your phone"  />
+          type="tel" id="phone" name="phone" placeholder="Enter your phone" />
         {% if errors.phone %}
         <span class="text-sm text-red-500">{{ errors.phone }}</span>
         {% endif %}
       </div>
       <div class="space-y-2">
         <label for="profile_image" class="block text-sm font-semibold text-gray-700 normal-case">Profile Image</label>
-        <input value= "{{user.first_name}}"
+        <input value="{{user.first_name}}"
           class="w-full p-3 border-2 border-green-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-all outline-none"
           type="file" id="profile_image" name="profile_image" />
         {% if errors.profile_image %}
@@ -397,39 +400,8 @@ Signup
 
       <button
         class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-lg hover:shadow-xl"
-        type="submit">Update Profile</button>
+        type="submit">Edit</button>
     </form>
-
-    <!-- Divider -->
-    <div class="flex items-center my-1">
-      <div class="flex-1 border-t border-gray-300"></div>
-      <span class="px-4 text-gray-500 text-sm normal-case">Or continue with</span>
-      <div class="flex-1 border-t border-gray-300"></div>
-    </div>
-
-    <!-- Google Login -->
-    <button
-      class="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 hover:border-green-300 hover:bg-green-50 text-gray-700 font-semibold py-2 px-4 rounded-lg transition-all shadow-sm hover:shadow-md"
-      type="button">
-      <svg class="w-5 h-5" viewBox="0 0 24 24">
-        <path fill="#4285F4"
-          d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-        <path fill="#34A853"
-          d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-        <path fill="#FBBC05"
-          d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-        <path fill="#EA4335"
-          d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-      </svg>
-      <span class="normal-case">Continue with Google</span>
-    </button>
-
-    <!-- Footer -->
-    <div class="text-center mt-2 text-gray-600">
-      <span class="normal-case">Already have an account?</span>
-      <a href="/auth/log-in"
-        class="text-green-600 hover:text-green-700 font-semibold transition-colors normal-case">Sign Up</a>
-    </div>
   </div>
 </div>
 {% endblock %}
