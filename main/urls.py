@@ -20,7 +20,7 @@ from .views import *
 from django.conf.urls.static import static
 from main import settings
 from users.views import *
-from blogs.views import *
+from blogs.views import addBlogPage, createBlog, blogDetails
 
 auth_urlpatterns = [
     path('log-in/', loginPage),
@@ -35,6 +35,7 @@ auth_urlpatterns = [
 blog_urlpatterns = [
     path('add', addBlogPage),
     path('create', createBlog),
+    path('id/<int:id>', blogDetails)
 ]
 
 urlpatterns = [

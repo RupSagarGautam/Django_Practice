@@ -1,0 +1,11 @@
+{% extends 'layouts/main.html' %}
+{% block title %}
+Blog Details
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        {{blog.title}}
+        <img src='{{blog.image.url}}' alt='The blog image with {{blog.id}} has Image'/>
+        {{blog.content}}
+    </div>
+{% endblock content %}
