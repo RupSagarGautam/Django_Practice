@@ -17,7 +17,11 @@ class Blog(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     tags = TaggableManager(blank=True)
+<<<<<<< HEAD
     image = models.ImageField(blank=True, null=True , upload_to=generateImagePath, default='static/images/blog1.png')
+=======
+    image = models.ImageField(blank=True, null=True , upload_to=generateImagePath)
+>>>>>>> 9b1649bc10d0b866b398f2d320712c705551a5ac
     attachment = models.FileField(blank=True, null=True, upload_to=generateAttachmentPath)
     status = models.CharField(max_length=8, choices=StatusOptions, default=StatusOptions.INACTIVE)
     created_at = models.DateTimeField( auto_now_add=True, editable=False )

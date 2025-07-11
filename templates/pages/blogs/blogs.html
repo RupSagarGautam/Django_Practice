@@ -4,6 +4,7 @@
   Blogs
 {% endblock %}
 {% block content %}
+<<<<<<< HEAD
 <div="align-center">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 space-y-2">
     {% for blog in blogs %}
@@ -26,4 +27,9 @@
     {% endfor %}
   </div>
 </div>
+=======
+  {% for blog in blogs %}
+    <div>{{ blog.title }} {{ blog.created_at }}</div>
+  {% endfor %}
+>>>>>>> 9b1649bc10d0b866b398f2d320712c705551a5ac
 {% endblock %}
