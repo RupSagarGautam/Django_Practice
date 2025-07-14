@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Blog
+from .models import Blog, Category
 
 class BlogAdmin(admin.ModelAdmin):
-<<<<<<< HEAD
     list_display = ('title', 'author', 'created_at', 'updated_at', 'image')
-=======
-    list_display = ('title', 'author', 'created_at', 'updated_at')
->>>>>>> 9b1649bc10d0b866b398f2d320712c705551a5ac
+
+# class CategoryAdmin(admin.ModelAdmin):
+#     list_display = ('name',)
 
 admin.site.register(Blog, BlogAdmin)
+admin.site.register(Category)

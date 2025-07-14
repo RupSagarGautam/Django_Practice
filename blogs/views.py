@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from blogs.models import Blog
+from blogs.models import Blog, Category
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/auth/log-in')
 def addBlogPage(request):
-    return render(request, "pages/blogs/addBlogPage.html")
+    categories = Category.objects.all()
+    return render(request, "pages/blogs/addBlogPage.html", {"categories": categories})
 
 
 def validate_blog(data):
@@ -60,13 +61,14 @@ def createBlog(request):
         errors = validate_blog(data)
         if errors:
             return render(request, "pages/blogs/addBlogPage.html", {"errors": errors})
-
+        category = Category.objects.get( name= data['category'])
         blog = Blog.objects.create(
             title=data["title"],
             content=data["content"],
             image=data["image"],
             attachment=data["attachment"],
-            author = request.user
+            author = request.user,
+            category = category,
         )
         # blog.tags.add(*data['tags'].split(",")) # split() seperates the data and keeps in list and * unwraps the list
         #Alternative Way
@@ -74,6 +76,6 @@ def createBlog(request):
         messages.success(request, "Blog Created Successfully!")
         return redirect("/blogs")
 
-def blogDetails(request, id):
+def blogDetails(request,id):
     blog = Blog.objects.get(id=id)
-    return render(request, "pages/blogs/blogDetails.html", {"blog": blog})
+    return render( request, 'pages/blogs/blogDetails.html', {"blog": blog})
