@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from blogs.models import Blog, Category
+from blogs.models import Blog, Category, BlogStats
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/auth/log-in')
@@ -61,14 +61,22 @@ def createBlog(request):
         errors = validate_blog(data)
         if errors:
             return render(request, "pages/blogs/addBlogPage.html", {"errors": errors})
-        category = Category.objects.get( name= data['category'])
+        category = Category.objects.get( pk = data['category'] )
+        
+        # if admin is creating the blog the status should be active otherwise pending
+        if request.user.profile.role == "Admin":
+            status = "Active"
+        else:
+            status = "Pending"
+            
         blog = Blog.objects.create(
             title=data["title"],
             content=data["content"],
             image=data["image"],
             attachment=data["attachment"],
-            author = request.user,
+            author = request.user, 
             category = category,
+            status = status
         )
         # blog.tags.add(*data['tags'].split(",")) # split() seperates the data and keeps in list and * unwraps the list
         #Alternative Way
@@ -76,6 +84,55 @@ def createBlog(request):
         messages.success(request, "Blog Created Successfully!")
         return redirect("/blogs")
 
-def blogDetails(request,id):
+def blogDetails(request, id):
     blog = Blog.objects.get(id=id)
+    blogstats, created = BlogStats.objects.get_or_create(blog = blog)
+    blogstats.blog_clicks +=1
+    blogstats.save()
     return render( request, 'pages/blogs/blogDetails.html', {"blog": blog})
+
+def editBlogPage(request, id):
+    blog = Blog.objects.get(id=id)
+    categories = Category.objects.all()
+    tags = ", ".join(blog.tags.names())
+    return render(request, 'pages/blogs/editBlogPage.html', {"blog": blog, "categories": categories, 'tags': tags})
+
+def updateBlog(request, id):
+    if request.method == "POST":
+        data = request.POST.copy()
+        data["image"] = request.FILES.get("image")
+        data["attachment"] = request.FILES.get("attachment")
+        errors = validate_blog(data)
+        if errors:
+            categories = Category.objects.all()
+            tags = data['tags']
+            data['category'] = Category.objects.get(id = data['category'])
+            context= {"errors": errors, "blog":data, "categories":categories, 'tags': tags}
+            return render(request, "pages/blogs/editBlogPage.html", context)
+        
+        else:
+            blog = Blog.objects.get(pk=id)
+            blog.title = data["title"]
+            blog.content = data["content"]
+            
+            if data["image"]:
+                blog.image = data["image"]
+            if data["attachment"]:
+                blog.attachment = data["attachment"]
+            category = Category.objects.get( pk = data['category'] )
+            blog.category = category
+            blog.tags.set([tag.strip() for tag in data['tags'].split(',')])
+            blog.save()
+            messages.success(request, "Blog Updated Successfully!")
+            return redirect(f'/blog/{id}')
+        
+def deleteBlog(request, id):
+    if request.method == "POST":
+        blog = Blog.objects.get(pk=id)
+        blog.delete()
+        messages.success(request, "Blog Deleted Successfully!")
+        return redirect('/writer/bloglist')
+    
+def myBlogs(request):
+     blogs = Blog.objects.filter(author=request.user)
+     return render(request, 'pages/blogs/blogs.html', {"blogs": blogs})
