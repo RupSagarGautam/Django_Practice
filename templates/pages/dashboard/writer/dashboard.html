@@ -1,59 +1,51 @@
 {% extends 'pages/dashboard/layouts/writer.html' %}
 {% block panel %}
-<div>
-    <h1 class="text-2xl font-bold text-blue-600">This is Writer Dashboard</h1>
-</div>
-<div class="px-4 py-2 grid grid-cols-1 md:grid-cols-3">
-    <div id="chart" class="col-span-1 md:col-span-2 bg-white"></div>
-</div>
-
-
-<script>
-    var blogClicks = {{ blogclicks|safe }};
-    var uniqueViews = {{ unique_views|safe }};
-    var clickDates = {{ click_date|safe }};
-
-    var options = {
+  <div>
+    <h1 class="text-2xl font-bold text-green-800 underline px-4 pb-4">Writer Dashboard</h1>
+    <div class="px-4 py-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div id="chart" class="col-span-1 md:col-span-2 bg-white"></div>
+      <div id="user-chart" class="col-span-1 md:col-span-2 bg-white"></div>
+    </div>
+    <script>
+      var options = {
         chart: {
-            type: 'line',
-            height: 350
+          type: 'line'
         },
         series: [
-            {
-                name: "Blog Clicks",
-                data: blogClicks
-            },
-            {
-                name: "Unique Views",
-                data: uniqueViews
-            }
+          {
+            name: 'Clicks',
+            data: {{blog_clicks|safe}}
+          },
+          {
+            name: 'Unique Views',
+            data: {{unique_views|safe}}
+          }
         ],
         xaxis: {
-            categories: clickDates,
-            title: {
-                text: "Date"
-            }
+          categories: {{click_date|safe}}
         },
         yaxis: [
-            {
-                title: {
-                    text: "Blog Clicks"
-                }
-            },
-            {
-                opposite: true,
-                title: {
-                    text: "Unique Views"
-                }
-            }
-        ],
-        title: {
-            text: 'Blog Performance',
-            align: 'center'
+    {
+      title: {
+        text: "Blog Clicks"
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: "Unique Views"
+      }
+    }
+        ], 
+        title:{
+          text: 'Blog Clicks and Unique Views',
+          align: 'center',
         }
-    };
+      }
+      
+      var chart = new ApexCharts(document.querySelector('#chart'), options)
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-</script>
+      chart.render()
+    </script>
+  </div>
 {% endblock %}
