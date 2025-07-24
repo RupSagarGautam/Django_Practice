@@ -1,6 +1,59 @@
-{%extends 'pages/dashboard/layouts/writer.html'%}
-{%block panel%}
+{% extends 'pages/dashboard/layouts/writer.html' %}
+{% block panel %}
 <div>
     <h1 class="text-2xl font-bold text-blue-600">This is Writer Dashboard</h1>
 </div>
-{%endblock%}
+<div class="px-4 py-2 grid grid-cols-1 md:grid-cols-3">
+    <div id="chart" class="col-span-1 md:col-span-2 bg-white"></div>
+</div>
+
+
+<script>
+    var blogClicks = {{ blogclicks|safe }};
+    var uniqueViews = {{ unique_views|safe }};
+    var clickDates = {{ click_date|safe }};
+
+    var options = {
+        chart: {
+            type: 'line',
+            height: 350
+        },
+        series: [
+            {
+                name: "Blog Clicks",
+                data: blogClicks
+            },
+            {
+                name: "Unique Views",
+                data: uniqueViews
+            }
+        ],
+        xaxis: {
+            categories: clickDates,
+            title: {
+                text: "Date"
+            }
+        },
+        yaxis: [
+            {
+                title: {
+                    text: "Blog Clicks"
+                }
+            },
+            {
+                opposite: true,
+                title: {
+                    text: "Unique Views"
+                }
+            }
+        ],
+        title: {
+            text: 'Blog Performance',
+            align: 'center'
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+{% endblock %}
