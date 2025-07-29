@@ -104,7 +104,7 @@ DATABASES = {
     }
 }
 
-SOCIALACCOUNT_LOGIN_ON_GET = True
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -124,6 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -134,6 +135,15 @@ TIME_ZONE = 'Asia/Kathmandu'
 USE_I18N = True
 
 USE_TZ = True
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
 
 
 # Static files (CSS, JavaScript, Images)
